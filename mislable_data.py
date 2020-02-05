@@ -19,13 +19,13 @@ NUM_TEST_SAMPLES = 10000
 
 import numpy as np
 import random as rand
-from datetime import datetime
+#from datetime import datetime
 
 def main():
     train_labels = np.loadtxt(PLAIN_TRAIN_LABELS, delimiter=',')
     altered_labels = open(ALTERED_TRAIN_LABELS, "w+")
     altered_indexes = open(ALTERED_TRAIN_LABELS_INDEXES, "w+")
-    rand.seed(datetime.now())
+    #rand.seed(datetime.now())
     index = -1
     count = 0
     for label in train_labels:
