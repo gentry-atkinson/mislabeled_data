@@ -55,14 +55,14 @@ def main():
             print("magic number ", byte)
             byte = file.read(4)
             print("number of items ", int.from_bytes(byte, byteorder='big'))
-            byte = file.read(4)
             output = np.zeros((60000), dtype='int16')
             for i in range(60000):
+                byte = file.read(1)
                 output[i] = int.from_bytes(byte, byteorder='big')
             np.savetxt(PLAIN_TRAIN_LABELS, output, delimiter=',')
             file.close()
 
-        print("\n----Writing test labels to csv----")
+        print("\n----Writing test images to csv----")
         with open(TEST_IMAGES_FILENAME, "rb") as file:
             byte = file.read(4)
             print("magic number ", byte)
@@ -97,9 +97,9 @@ def main():
                 print("magic number ", byte)
                 byte = file.read(4)
                 print("number of items ", int.from_bytes(byte, byteorder='big'))
-                byte = file.read(4)
                 output = np.zeros((10000), dtype='int16')
                 for i in range(10000):
+                    byte = file.read(4)
                     output[i] = int.from_bytes(byte, byteorder='big')
                 np.savetxt(PLAIN_TEST_LABELS, output, delimiter=',')
                 file.close()
