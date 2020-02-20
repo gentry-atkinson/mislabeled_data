@@ -56,10 +56,10 @@ int main(int argc, char** argv){
   for(int i = 0; i<numSample; i++){
     int sampleLable = (rand() % numLables);
     float scaleNoise, phaseNoise, offsetNoise;
-    scaleNoise = 0.1 * rand()/maxInt + 1.0;
-    phaseNoise = 0.1 * rand()/maxInt;
+    scaleNoise = 0.2 * rand()/maxInt + 1.0;
+    phaseNoise = 0.2 * rand()/maxInt;
     for(int j = 0; j<sampleRate*numSeconds; j++){
-        offsetNoise = 0.2 * rand()/maxInt-0.1;
+        offsetNoise = 0.4 * rand()/maxInt-0.2;
         float sampleValue = 0;
         sampleValue += sin(((2.0*j/static_cast<float>(sampleRate))*scaleNoise*signal1Scale[sampleLable]+signal1Phase[sampleLable]+phaseNoise)*M_PI)+offsetNoise+signal1Offset[sampleLable];
         sampleValue += sin(((2.0*j/static_cast<float>(sampleRate))*scaleNoise*signal2Scale[sampleLable]+signal2Phase[sampleLable]+phaseNoise)*M_PI)+offsetNoise+signal2Offset[sampleLable];
