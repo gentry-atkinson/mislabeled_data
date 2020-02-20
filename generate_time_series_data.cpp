@@ -1,3 +1,11 @@
+/*******************************************************************************
+*Author: Gentry Atkinson
+*Date: 20 Feb 2020
+*Organization: Texas State Univerity
+*Description: this command line tool will generate simple sets of synthetic
+*             labeled time-series data.
+*******************************************************************************/ 
+
 #include<iostream>
 #include<fstream>
 #include<cmath>
@@ -26,6 +34,8 @@ int main(int argc, char** argv){
   float signal2Scale[numLables], signal2Phase[numLables], signal2Offset[numLables];
   float signal3Scale[numLables], signal3Phase[numLables], signal3Offset[numLables];
 
+  srand(time(NULL));
+
   //initialze signal values for each label
   for(int i = 0; i < numLables; i++){
     signal1Scale[i] = 0.5 + rand()/maxInt;
@@ -41,16 +51,16 @@ int main(int argc, char** argv){
 
   //write samples
   for(int i = 0; i<numSample; i++){
-    int sampleLable = rand() % numLables;
+    int sampleLable = (rand() % numLables);
     float scaleNoise, phaseNoise, offsetNoise;
     scaleNoise = 0.1 * rand()/maxInt + 1.0;
     phaseNoise = 0.1 * rand()/maxInt;
     for(int j = 0; j<sampleRate*numSeconds; j++){
         offsetNoise = 0.05 * rand()/maxInt;
         float sampleValue = 0;
-        sampleValue += ((2.0*j/static_cast<float>(sampleRate))*scaleNoise*signal1Scale[sampleLable]+signal1Phase[sampleLable]+phaseNoise)*M_PI+offsetNoise+signal1Offset[sampleLable];
-        sampleValue += ((2.0*j/static_cast<float>(sampleRate))*scaleNoise*signal2Scale[sampleLable]+signal2Phase[sampleLable]+phaseNoise)*M_PI+offsetNoise+signal2Offset[sampleLable];
-        sampleValue += ((2.0*j/static_cast<float>(sampleRate))*scaleNoise*signal3Scale[sampleLable]+signal3Phase[sampleLable]+phaseNoise)*M_PI+offsetNoise+signal3Offset[sampleLable];
+        sampleValue += sin(((2.0*j/static_cast<float>(sampleRate))*scaleNoise*signal1Scale[sampleLable]+signal1Phase[sampleLable]+phaseNoise)*M_PI)+offsetNoise+signal1Offset[sampleLable];
+        sampleValue += sin(((2.0*j/static_cast<float>(sampleRate))*scaleNoise*signal2Scale[sampleLable]+signal2Phase[sampleLable]+phaseNoise)*M_PI)+offsetNoise+signal2Offset[sampleLable];
+        sampleValue += sin(((2.0*j/static_cast<float>(sampleRate))*scaleNoise*signal3Scale[sampleLable]+signal3Phase[sampleLable]+phaseNoise)*M_PI)+offsetNoise+signal3Offset[sampleLable];
         sampleFile << sampleValue;
         if(j != sampleRate*numSeconds-1)sampleFile<<", ";
     }
@@ -58,6 +68,5 @@ int main(int argc, char** argv){
     sampleFile << endl;
   }
 
-  srand(time(NULL));
   return 0;
 }
