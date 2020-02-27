@@ -34,8 +34,8 @@ for i = 1:max(size(C))
 end
 
 %1 is used to flag a mislabeled data point
-real_mislabeled_list = zeros(max(C), 1);
-predicted_mislabeled_list = zeros(max(C), 1);
+real_mislabeled_list = zeros(size(C, 1), 1);
+predicted_mislabeled_list = zeros(size(C, 1), 1);
 
 
 for i = 1:size(alterindexes, 1)
