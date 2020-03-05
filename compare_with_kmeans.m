@@ -4,7 +4,7 @@
 %
 %Inputs: syntheticfeatures, syntheticsprimeprime_normal, alterindexes, and numLabels
 
-tolerance = 0.10;
+tolerance = 0.1;
 
 feature_length = size(syntheticfeatures(1,:), 2);
 number_samples = size(syntheticfeatures, 1);
@@ -33,16 +33,31 @@ end
 %flag values: 0=correct, 1=mislabeled
 
 %find who's distance has moved the most
+
+cluster_1 = [];
+cluster_2 = [];
+
+for i=1:number_samples
+   if(C(i)==1)
+      cluster_1 = [cluster_1; syntheticsprimeprimenormalized(1,:)]; 
+   else
+       cluster_2 = [cluster_2; syntheticsprimeprimenormalized(2,:)]; 
+   end
+end
+
+centers(1, :) = mean(cluster_1);
+centers(2, :) = mean(cluster_2);
+
 for i = 1:number_samples
     %dis_to_my_cluster = 1-getCosineSimilarity(syntheticsprimeprimenormalized(i,:), centers(C(i),:));
     %dis_to_my_cluster = sqrt(sum((syntheticsprimeprimenormalized(i,:) - centers(C(i),:)) .^ 2));
     
     dis_to_my_cluster = 1-getCosineSimilarity(syntheticsprimeprimenormalized(i,:), centers(C(i),:));
-    %if abs(dis_to_my_cluster-dis_to_all_clusters(i,C(i))) > tolerance*(abs(dis_to_all_clusters(1)-dis_to_all_clusters(2)))
+    %if abs(dis_to_my_cluster-dis_to_all_clusters(i, C(i))) > tolerance*(abs(dis_to_all_clusters(i,1)-dis_to_all_clusters(i,2)))
     %   mislabels_predicted(i) = 1;
     %end
     
-    distance(i, 1) = abs(dis_to_my_cluster - dis_to_all_clusters(C(i)));
+    distance(i, 1) = abs(dis_to_my_cluster - dis_to_all_clusters(i, C(i)));
     distance(i,2) = i;
         
 end
