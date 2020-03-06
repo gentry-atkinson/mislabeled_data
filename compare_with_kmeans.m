@@ -58,7 +58,7 @@ for i = 1:number_samples
     %end
     
     distance(i, 1) = abs(dis_to_my_cluster - dis_to_all_clusters(i, C(i)));
-    distance(i,2) = i;
+    distance(i, 2) = i;
         
 end
 
