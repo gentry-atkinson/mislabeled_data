@@ -6,10 +6,11 @@
 syntheticfeatures = readmatrix("synthetic_features.csv");
 syntheticmislabels = readmatrix("synthetic_mislabels.csv");
 alteredindexes = readmatrix("altered_indexes.csv");
+sprimeprime = readmatrix("synthetic_sprimeprime_normalized.csv");
 
 %develop set of closest neighbors
-model = fitcknn(syntheticfeatures, syntheticmislabels, 'Distance', 'cosine', 'NumNeighbors', 3);
-closest = predict(model, syntheticfeatures);
+model = fitcknn(sprimeprime, syntheticmislabels, 'Distance', 'cosine', 'NumNeighbors', 3);
+closest = predict(model, sprimeprime);
 
 %set flags in predicted mislabeled set
 %a value of 1 marks a mislabeled point
@@ -28,3 +29,8 @@ for i = 1:size(alteredindexes, 1)
 end
 
 confusion_matrix = confusionmat(real_mislabeled, predicted_mislabeled);
+visual = tsne(sprimeprime);
+figure('Name', "Actual mislabeled points");
+gscatter(visual(:,1), visual(:,2), real_mislabeled);
+figure('Name', "Predicted mislabeled points");
+gscatter(visual(:,1), visual(:,2), predicted_mislabeled);
