@@ -20,7 +20,7 @@ def main():
 
     inFile = open(inFileName, 'r')
     outFile = open(outFileName, 'w+')
-    outIndexes = open("alter_indexes.csv", 'w+')
+    outIndexes = open("altered_indexes.csv", 'w+')
     oldLabelCount = np.zeros(numLabels, dtype='int16')
     newLabelCount = np.zeros(numLabels, dtype='int16')
 
