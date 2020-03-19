@@ -2,3 +2,24 @@
 %Date: 26 Feb 2020
 %Organization: Texas State University
 
+%develop set of closest neighbors
+model = fitcknn(syntheticfeatures, syntheticmislabels, 'Distance', 'cosine', 'NumNeighbors', 3);
+closest = predict(model, syntheticfeatures);
+
+%set flags in predicted mislabeled set
+%a value of 1 marks a mislabeled point
+predicted_mislabeled = zeros(size(closest, 1), 1);
+for i = 1:size(closest, 1)
+    if closest(i) ~= syntheticmislabels(i)
+        predicted_mislabeled(i) = 1;
+    end
+end
+
+%build flags for actual mislabels
+%a value of 1 marks a mislabeled point
+real_mislabeled = zeros(size(syntheticmislabels, 1), 1);
+for i = 1:size(alteredindexes, 1)
+       real_mislabeled(alteredindexes(i)) = 1;
+end
+
+confusion_matrix = confusionmat(real_mislabeled, predicted_mislabeled);
