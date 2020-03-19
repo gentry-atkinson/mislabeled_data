@@ -2,6 +2,11 @@
 %Date: 26 Feb 2020
 %Organization: Texas State University
 
+%load files
+syntheticfeatures = readmatrix("synthetic_features.csv");
+syntheticmislabels = readmatrix("synthetic_mislabels.csv");
+alteredindexes = readmatrix("altered_indexes.csv");
+
 %develop set of closest neighbors
 model = fitcknn(syntheticfeatures, syntheticmislabels, 'Distance', 'cosine', 'NumNeighbors', 3);
 closest = predict(model, syntheticfeatures);
