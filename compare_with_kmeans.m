@@ -5,12 +5,21 @@
 %Inputs: syntheticfeatures, syntheticsprimeprime_normal, alterindexes, and numLabels
 
 tolerance = 0.1;
+numLabels = 2;
+
+%load files
+syntheticfeatures = readmatrix("synthetic_features.csv");
+syntheticmislabels = readmatrix("synthetic_mislabels.csv");
+alteredindexes = readmatrix("altered_indexes.csv");
+sprimeprime = readmatrix("synthetic_sprimeprime_normalized.csv");
 
 feature_length = size(syntheticfeatures(1,:), 2);
 number_samples = size(syntheticfeatures, 1);
 
 feat_norm = normalize(syntheticfeatures);
 %spp_norm = normalize(syntheticsprimeprime);
+
+
 
 distance = zeros(number_samples, 2);
 mislabels_observed = zeros(number_samples, 1);
@@ -39,9 +48,9 @@ cluster_2 = [];
 
 for i=1:number_samples
    if(C(i)==1)
-      cluster_1 = [cluster_1; syntheticsprimeprimenormalized(1,:)]; 
+      cluster_1 = [cluster_1; sprimeprime(1,:)]; 
    else
-       cluster_2 = [cluster_2; syntheticsprimeprimenormalized(2,:)]; 
+       cluster_2 = [cluster_2; sprimeprime(2,:)]; 
    end
 end
 
@@ -52,7 +61,7 @@ for i = 1:number_samples
     %dis_to_my_cluster = 1-getCosineSimilarity(syntheticsprimeprimenormalized(i,:), centers(C(i),:));
     %dis_to_my_cluster = sqrt(sum((syntheticsprimeprimenormalized(i,:) - centers(C(i),:)) .^ 2));
     
-    dis_to_my_cluster = 1-getCosineSimilarity(syntheticsprimeprimenormalized(i,:), centers(C(i),:));
+    dis_to_my_cluster = 1-getCosineSimilarity(sprimeprime(i,:), centers(C(i),:));
     %if abs(dis_to_my_cluster-dis_to_all_clusters(i, C(i))) > tolerance*(abs(dis_to_all_clusters(i,1)-dis_to_all_clusters(i,2)))
     %   mislabels_predicted(i) = 1;
     %end
@@ -69,8 +78,8 @@ for i = 1:(tolerance * number_samples)
 end
 
 %use alterindexes to set flags in mislabels_observed
-for i = 1:size(alterindexes, 1)
-   mislabels_observed(alterindexes(i)) = 1; 
+for i = 1:size(alteredindexes, 1)
+   mislabels_observed(alteredindexes(i)+1) = 1; 
 end
 
 
