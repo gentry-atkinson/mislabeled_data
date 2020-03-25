@@ -2,13 +2,13 @@
 %Date: 24 March 2020
 %Organization: Texas State University
 
-function [prec] = k_nearest_corepoints(epsilon, minPts, k)
+function [prec] = k_nearest_corepoints(epsilon, minPts, k, sprimeprime, syntheticmislabels, alteredindexes)
 
-    %load files
-    syntheticfeatures = readmatrix("synthetic_features.csv");
-    syntheticmislabels = readmatrix("synthetic_mislabels.csv");
-    alteredindexes = readmatrix("altered_indexes.csv");
-    sprimeprime = readmatrix("synthetic_sprimeprime_normalized.csv");
+    %load files: no point in doing this in a function call. Pushed out
+    %syntheticfeatures = readmatrix("synthetic_features.csv");
+    %syntheticmislabels = readmatrix("synthetic_mislabels.csv");
+    %alteredindexes = readmatrix("altered_indexes.csv");
+    %sprimeprime = readmatrix("synthetic_sprimeprime_normalized.csv");
 
     %defined values for one experiment
     %epsilon = 0.1;
@@ -21,6 +21,11 @@ function [prec] = k_nearest_corepoints(epsilon, minPts, k)
     %convert the core point indexes into lists of core points and labels
     corepts = sprimeprime(iscore==1, :);
     corelabels = syntheticmislabels(iscore==1, :);
+    
+    if size(corepts, 1) == 0
+        prec = 0;
+        return;
+    end
 
     %"train" the knn model on the sprimeprime set and produce set of closest
     %labels
