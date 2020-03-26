@@ -9,7 +9,7 @@ alteredindexes = readmatrix("altered_indexes.csv");
 sprimeprime = readmatrix("synthetic_sprimeprime_normalized.csv");
 
 %develop set of closest neighbors
-model = fitcknn(syntheticfeatures, syntheticmislabels, 'Distance', 'cosine', 'NumNeighbors', 7);
+model = fitcknn(syntheticfeatures, syntheticmislabels, 'Distance', 'cosine', 'NumNeighbors', 5);
 closest = predict(model, syntheticfeatures);
 
 %set flags in predicted mislabeled set

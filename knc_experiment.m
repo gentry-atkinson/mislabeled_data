@@ -12,9 +12,9 @@ maxK = 0;
 maxMinPts = 0;
 maxEpsilon = 0;
 
-for k = 2:7
-   for minPts = 10:5:10000
-       for epsilon = 0.01:0.01:10
+for k = 3:5
+   for minPts = 10:5:500
+       for epsilon = 0.05:0.05:1
            thisPrec = k_nearest_corepoints(epsilon, minPts, k, sprimeprime, syntheticmislabels, alteredindexes);
            fprintf('k: %d, minPts: %d, ep: %f, prec: %f\n', k, minPts, epsilon, thisPrec);
            if thisPrec > maxPrec
