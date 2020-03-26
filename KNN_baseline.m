@@ -29,7 +29,7 @@ for i = 1:size(alteredindexes, 1)
 end
 
 confusion_matrix = confusionmat(real_mislabeled, predicted_mislabeled);
-visual = tsne(sprimeprime);
+%visual = tsne(sprimeprime);
 figure('Name', "Actual mislabeled points");
 gscatter(visual(:,1), visual(:,2), real_mislabeled);
 figure('Name', "Predicted mislabeled points");

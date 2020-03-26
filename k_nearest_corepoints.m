@@ -2,7 +2,7 @@
 %Date: 24 March 2020
 %Organization: Texas State University
 
-function [prec] = k_nearest_corepoints(epsilon, minPts, k, sprimeprime, syntheticmislabels, alteredindexes)
+function [matrix] = k_nearest_corepoints(epsilon, minPts, k, sprimeprime, syntheticmislabels, alteredindexes)
 
     %load files: no point in doing this in a function call. Pushed out
     %syntheticfeatures = readmatrix("synthetic_features.csv");
@@ -23,7 +23,7 @@ function [prec] = k_nearest_corepoints(epsilon, minPts, k, sprimeprime, syntheti
     corelabels = syntheticmislabels(iscore==1, :);
     
     if size(corepts, 1) == 0
-        prec = 0;
+        matrix = zeros(2,2);
         return;
     end
 
@@ -48,9 +48,18 @@ function [prec] = k_nearest_corepoints(epsilon, minPts, k, sprimeprime, syntheti
            real_mislabeled(alteredindexes(i)+1) = 1;
     end
 
-    confusion_matrix = confusionmat(real_mislabeled, predicted_mislabeled);
+    matrix = confusionmat(real_mislabeled, predicted_mislabeled);
+    visual = tsne(sprimeprime, 'Distance', 'cosine');
+    figure('Name', "Clusters");
+    gscatter(visual(:,1), visual(:,2), c);
+    figure('Name', "Core Points");
+    gscatter(visual(:,1), visual(:,2), iscore);
+    figure('Name', "Predicted Mislabeled Points");
+    gscatter(visual(:,1), visual(:,2), predicted_mislabeled);
+    figure('Name', "Actual Mislabeled Points");
+    gscatter(visual(:,1), visual(:,2), real_mislabeled);
 
-    prec = (confusion_matrix(2,2))/(confusion_matrix(1,2)+confusion_matrix(2,2));
+    %prec = (confusion_matrix(2,2))/(confusion_matrix(1,2)+confusion_matrix(2,2));
 
 end
 
