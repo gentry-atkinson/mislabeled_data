@@ -37,19 +37,19 @@ for i = 1:15
         end
         ms_features = [ms_features; FeatureExtraction(sample_accel_magnitude, 50)];
         if strncmp("dws", dirs(i), 3) > 0
-            ms_labels(24*(i-1)+j) = 1;
+            ms_labels(24*(i-1)+j) = 0;
         elseif strncmp("jog", dirs(i), 3) > 0
-            ms_labels(24*(i-1)+j) = 2;
+            ms_labels(24*(i-1)+j) = 1;
         elseif strncmp("sit", dirs(i), 3) > 0
-            ms_labels(24*(i-1)+j) = 3;
+            ms_labels(24*(i-1)+j) = 2;
         elseif strncmp("std", dirs(i), 3) > 0
-            ms_labels(24*(i-1)+j) = 4;
+            ms_labels(24*(i-1)+j) = 3;
         elseif strncmp("ups", dirs(i), 3) > 0
-            ms_labels(24*(i-1)+j) = 5;
+            ms_labels(24*(i-1)+j) = 4;
         elseif strncmp("wlk", dirs(i), 3) > 0
-            ms_labels(24*(i-1)+j) = 6;
+            ms_labels(24*(i-1)+j) = 5;
         else
-            ms_labels(i) = 0;
+            ms_labels(i) = 7;
         end
     end
 end
