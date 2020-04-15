@@ -57,13 +57,8 @@ end
 
 ms_features_norm = ms_features./max(ms_features(:));
 
-%for i=1:360
-%   ms_sprimeprime(i,1:21) = ms_features_norm(i);
-%   %ms_sprimeprime(i,22:27) = [0,0,0,0,0,0];
-%   ms_sprimeprime(i,22+ms_labels(i)) = 1;
-%end
 
 writematrix(ms_features, "motionsense_features.csv");
 writematrix(ms_labels, "motionsense_labels.csv");
 writematrix(ms_features_norm, "motionsense_normalized_features.csv");
-writematrix(ms_sprimeprime, "motionsense_sprimeprime.csv");
+%writematrix(ms_sprimeprime, "motionsense_sprimeprime.csv");

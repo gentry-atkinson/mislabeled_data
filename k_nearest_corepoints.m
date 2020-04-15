@@ -49,17 +49,17 @@ function [matrix] = k_nearest_corepoints(epsilon, minPts, k, sprimeprime, synthe
     end
 
     matrix = confusionmat(real_mislabeled, predicted_mislabeled);
-    visual = tsne(sprimeprime, 'Distance', 'cosine');
-    figure('Name', "Clusters");
-    gscatter(visual(:,1), visual(:,2), c);
-    figure('Name', "Core Points");
-    gscatter(visual(:,1), visual(:,2), iscore);
-    figure('Name', "Predicted Mislabeled Points");
-    gscatter(visual(:,1), visual(:,2), predicted_mislabeled);
-    figure('Name', "Actual Mislabeled Points");
-    gscatter(visual(:,1), visual(:,2), real_mislabeled);
+    %visual = tsne(sprimeprime, 'Distance', 'cosine');
+    %figure('Name', "Clusters");
+    %gscatter(visual(:,1), visual(:,2), c);
+    %figure('Name', "Core Points");
+    %gscatter(visual(:,1), visual(:,2), iscore);
+    %figure('Name', "Predicted Mislabeled Points");
+    %gscatter(visual(:,1), visual(:,2), predicted_mislabeled);
+    %figure('Name', "Actual Mislabeled Points");
+    %gscatter(visual(:,1), visual(:,2), real_mislabeled);
 
-    %prec = (confusion_matrix(2,2))/(confusion_matrix(1,2)+confusion_matrix(2,2));
+    prec = (matrix(2,2))/(matrix(1,2)+matrix(2,2));
 
 end
 
