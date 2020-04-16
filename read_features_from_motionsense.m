@@ -61,4 +61,3 @@ ms_features_norm = ms_features./max(ms_features(:));
 writematrix(ms_features, "motionsense_features.csv");
 writematrix(ms_labels, "motionsense_labels.csv");
 writematrix(ms_features_norm, "motionsense_normalized_features.csv");
-%writematrix(ms_sprimeprime, "motionsense_sprimeprime.csv");

@@ -2,7 +2,7 @@
 %Date: 24 March 2020
 %Organization: Texas State University
 
-function [matrix] = k_nearest_corepoints(epsilon, minPts, k, sprimeprime, syntheticmislabels, alteredindexes)
+function [prec] = k_nearest_corepoints(epsilon, minPts, k, sprimeprime, syntheticmislabels, alteredindexes)
 
     %load files: no point in doing this in a function call. Pushed out
     %syntheticfeatures = readmatrix("synthetic_features.csv");
@@ -17,6 +17,7 @@ function [matrix] = k_nearest_corepoints(epsilon, minPts, k, sprimeprime, synthe
 
     %cluster sprimeprime to find core points
     [c, iscore] = dbscan(sprimeprime, epsilon, minPts, 'Distance', 'cosine');
+    prec = 0;
 
     %convert the core point indexes into lists of core points and labels
     corepts = sprimeprime(iscore==1, :);
@@ -24,6 +25,7 @@ function [matrix] = k_nearest_corepoints(epsilon, minPts, k, sprimeprime, synthe
     
     if size(corepts, 1) == 0
         matrix = zeros(2,2);
+        prec = 0;
         return;
     end
 
@@ -59,7 +61,11 @@ function [matrix] = k_nearest_corepoints(epsilon, minPts, k, sprimeprime, synthe
     %figure('Name', "Actual Mislabeled Points");
     %gscatter(visual(:,1), visual(:,2), real_mislabeled);
 
-    prec = (matrix(2,2))/(matrix(1,2)+matrix(2,2));
+    if matrix(1,2) == 0 || matrix(2,2) == 0
+        prec = 0;
+    else
+        prec = (matrix(2,2))/(matrix(1,2)+matrix(2,2));
+    end
 
 end
 
