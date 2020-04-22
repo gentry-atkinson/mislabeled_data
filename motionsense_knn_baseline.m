@@ -3,10 +3,10 @@
 %Organization: Texas State University
 
 %load files
-syntheticfeatures = readmatrix("synthetic_features.csv");
-syntheticmislabels = readmatrix("synthetic_mislabels.csv");
+syntheticfeatures = readmatrix("motionsense_features.csv");
+syntheticmislabels = readmatrix("motionsense_mislabels.csv");
 alteredindexes = readmatrix("altered_indexes.csv");
-sprimeprime = readmatrix("synthetic_sprimeprime_normalized.csv");
+sprimeprime = readmatrix("motionsense_sprimeprime.csv");
 
 %develop set of closest neighbors
 model = fitcknn(syntheticfeatures, syntheticmislabels, 'Distance', 'cosine', 'NumNeighbors', 5);
