@@ -1,17 +1,17 @@
 %Author: Gentry Atkinson
-%Date: 26 Feb 2020
+%Date: 20 Apr 2020
 %Organization: Texas State University
 %
-%Inputs: syntheticfeatures, syntheticsprimeprime_normal, alterindexes, and numLabels
+%Inputs: motionsense_features, motionsenese_sprimeprime, alterindexes, and numLabels
 
 tolerance = 0.1;
-numLabels = 2;
+numLabels = 6;
 
 %load files
-syntheticfeatures = readmatrix("synthetic_features.csv");
-syntheticmislabels = readmatrix("synthetic_mislabels.csv");
+syntheticfeatures = readmatrix("motionsense_features.csv");
+syntheticmislabels = readmatrix("motionsense_mislabels.csv");
 alteredindexes = readmatrix("altered_indexes.csv");
-sprimeprime = readmatrix("synthetic_sprimeprime_normalized.csv");
+sprimeprime = readmatrix("motionsense_sprimeprime.csv");
 
 feature_length = size(syntheticfeatures(1,:), 2);
 number_samples = size(syntheticfeatures, 1);
