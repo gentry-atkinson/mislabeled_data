@@ -17,10 +17,11 @@ numLabels = 6;
 
 fprintf("max cluster: %d\tmin cluster: %d\n", max(clusters), min(clusters));
 
-knn_clasifiers = {};
+knn_classifiers = cell(max(clusters), 1);
 for i = 1:max(clusters)
     point_set = features(clusters==i, :);
     label_set = mislabels(clusters==i);
-    knn_clasifiers(i) = fitcknn(point_set, label_set, 'Distance', 'cosine', 'NumNeighbors', k);
+    knn_classifiers{i} = fitcknn(point_set, label_set, 'Distance', 'cosine', 'NumNeighbors', k);
 end
+
 
