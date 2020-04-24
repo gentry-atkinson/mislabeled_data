@@ -9,12 +9,14 @@ alteredindexes = readmatrix("altered_indexes.csv");
 sprimeprime = readmatrix("motionsense_sprimeprime.csv");
 
 minPts = 10;
-epsilon = 0.01;
+epsilon = 0.015;
 k = 6;
 numLabels = 6;
 
 %assign a cluster for every point in the feautre set
 [clusters, corePoints] = dbscan(features,epsilon,minPts,'Distance','cosine');
+
+km_clusters = kmeans(features, numLabels, 'Distance', 'cosine');
 
 fprintf("max cluster: %d\tmin cluster: %d\n", max(clusters), min(clusters));
 
@@ -26,15 +28,24 @@ for i = 1:max(clusters)
     knn_classifiers{i} = fitcknn(point_set, label_set, 'Distance', 'cosine', 'NumNeighbors', k);
 end
 
+km_knn_classifiers = cell(numLabels);
+for i = 1:numLabels
+    point_set = features(km_clusters==i, :);
+    label_set = mislabels(km_clusters==i);
+    km_knn_classifiers{i} = fitcknn(point_set, label_set, 'Distance', 'cosine', 'NumNeighbors', k);
+end
+
 %"train" a classifer on the full feature set
 traditional_knn_classifier = fitcknn(features, mislabels, 'Distance', 'cosine', 'NumNeighbors', k);
 
 %allocate space for all the crud
 predicted_mislabeled = zeros(size(features, 1), 1);
 traditional_predicted_mislabeled = zeros(size(features, 1), 1);
+km_predicted_mislabeled = zeros(size(features, 1), 1);
 observed_mislabeled = zeros(size(features, 1), 1);
 matrix = zeros(2,2);
 trad_matrix = zeros(2,2);
+km_matrix = zeros(2,2);
 
 %walk through feature space and find the bad predictions from KNN
 for i = 1:size(features,1)
@@ -52,6 +63,12 @@ for i = 1:size(features,1)
    if predicted_label ~= mislabels(i)
     traditional_predicted_mislabeled(i) = 1;
    end
+   
+   this_cluster = km_clusters(i);
+   predicted_label = predict(km_knn_classifiers{this_cluster}, features(i, :));
+   if predicted_label ~= mislabels(i)
+    km_predicted_mislabeled(i) = 1;
+   end
 end
 
 for i = 1:size(alteredindexes,1)
@@ -60,7 +77,9 @@ end
 
 matrix = confusionmat(observed_mislabeled, predicted_mislabeled);
 trad_matrix = confusionmat(observed_mislabeled, traditional_predicted_mislabeled);
+km_matrix = confusionmat(observed_mislabeled, km_predicted_mislabeled);
 fprintf("Precision of new method: %f\n", matrix(2,2)/(matrix(1,2)+matrix(2,2)));
 fprintf("Precision of old method: %f\n", trad_matrix(2,2)/(trad_matrix(1,2)+trad_matrix(2,2)));
+fprintf("Precision of K-Means method: %f\n", km_matrix(2,2)/(km_matrix(1,2)+km_matrix(2,2)));
 
 
