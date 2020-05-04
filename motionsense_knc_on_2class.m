@@ -75,4 +75,6 @@ fprintf("Number of actual mislabeled points: %d\n", sum(actual_mislabeled(:)==1)
 
 knn_matrix = confusionmat(actual_mislabeled, predicted_mislabeled);
 knc_matrix = confusionmat(actual_mislabeled, predicted_coremislabeled);
+fprintf("Precision of knn: %f\n", knn_matrix(2,2)/(knn_matrix(1,2)+knn_matrix(2,2)));
+fprintf("Precision of knc: %f\n", knc_matrix(2,2)/(knc_matrix(1,2)+knc_matrix(2,2)));
 
