@@ -43,7 +43,7 @@ end
 fprintf("Number of predicted mislabeled points: %d\n", sum(predicted_mislabeled(:)==1));
 
 for i = 1:size(alteredindexes,1)
-   actual_mislabeled(i) = 1; 
+   actual_mislabeled(alteredindexes(i)+1) = 1; 
 end
 fprintf("Number of actual mislabeled points: %d\n", sum(actual_mislabeled(:)==1));
 
